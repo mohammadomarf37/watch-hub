@@ -2,16 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Database\Seeder;
 
 class WishlistSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $users = User::where('role', 'customer')->get();
+
+        foreach ($users as $user) {
+            Wishlist::create([
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

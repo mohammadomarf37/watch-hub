@@ -2,16 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Watch;
+use App\Models\WatchImage;
 use Illuminate\Database\Seeder;
 
 class WatchImageSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        $watches = Watch::all();
+
+        foreach ($watches as $watch) {
+            $slug = $watch->slug;
+            $imageCount = rand(2, 4);
+
+            for ($i = 0; $i < $imageCount; $i++) {
+                WatchImage::create([
+                    'watch_id' => $watch->id,
+                    'image_url' => 'https://picsum.photos/seed/' . $slug . $i . '/600/600',
+                    'is_primary' => $i === 0,
+                    'sort_order' => $i,
+                ]);
+            }
+        }
     }
 }

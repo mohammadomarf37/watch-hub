@@ -40,6 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
         } else {
           Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
         }
+      } else if (!success && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Login failed. Please try again.'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+        authProvider.clearError();
       }
     }
   }
@@ -137,9 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Password is required';
                       }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
+                      // if (value.length < 6) {
+                      //   return 'Password must be at least 6 characters';
+                      // }
                       return null;
                     },
                   ),

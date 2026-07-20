@@ -10,10 +10,10 @@ class CartProvider extends ChangeNotifier {
   int get itemCount => _items.fold(0, (sum, item) => sum + item.quantity);
 
   // Add Item to Cart
-  void addToCart(Watch watch, {required String color, required String size}) {
+  void addToCart(Watch watch, { required String size}) {
     // Check if the exact product with same color and size already exists in the cart
     final existingIndex = _items.indexWhere(
-      (item) => item.watch.id == watch.id && item.color == color && item.size == size,
+      (item) => item.watch.id == watch.id && item.size == size,
     );
 
     if (existingIndex >= 0) {
@@ -23,7 +23,7 @@ class CartProvider extends ChangeNotifier {
         CartItem(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
           watch: watch,
-          color: color,
+          // color: color,
           size: size,
           quantity: 1,
         ),

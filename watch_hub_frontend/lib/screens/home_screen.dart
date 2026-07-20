@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:watch_hub_frontend/core/constants/app_colors.dart';
 import 'package:watch_hub_frontend/core/constants/app_constants.dart';
 import 'package:watch_hub_frontend/core/widgets/empty_state.dart';
+import 'package:watch_hub_frontend/core/widgets/guest_dialog.dart';
 import 'package:watch_hub_frontend/core/widgets/shimmer_loader.dart';
 import 'package:watch_hub_frontend/core/widgets/watch_card.dart';
 import 'package:watch_hub_frontend/models/watch.dart';
@@ -21,23 +22,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<ProductProvider>(context, listen: false);
+      if (provider.allWatches.isEmpty) {
+        provider.fetchWatches();
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
-  // Show filter bottom sheet
   void _showFilters(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppConstants.radiusXL)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppConstants.radiusXL),
+        ),
       ),
-      builder: (context) {
-        return const FilterBottomSheet();
-      },
+      builder: (context) => const FilterBottomSheet(),
     );
   }
 
@@ -49,12 +60,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final userName = authProvider.currentUser?.name.split(' ').first ?? 'Guest';
     final filteredWatches = productProvider.filteredWatches;
-    final isSearching = productProvider.searchQuery.isNotEmpty || 
-        productProvider.selectedBrands.isNotEmpty || 
+    final isSearching =
+        productProvider.searchQuery.isNotEmpty ||
+        productProvider.selectedBrands.isNotEmpty ||
         productProvider.selectedCategories.isNotEmpty ||
         productProvider.minRating > 0.0 ||
         productProvider.priceRange.start > 0.0 ||
         productProvider.priceRange.end < 15000.0;
+
+    // Dynamic Sections
+    final featuredWatches = productProvider.allWatches
+        .where((w) => w.isFeatured)
+        .toList();
+    final popularWatches = productProvider.allWatches
+        .where((w) => w.isPopular)
+        .toList();
+    final newArrivals = productProvider.allWatches
+        .where((w) => w.isNewArrival)
+        .toList();
+    final recommendedWatches = productProvider.allWatches
+        .where((w) => w.isRecommended)
+        .toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -65,7 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
               centerTitle: true,
               automaticallyImplyLeading: false,
               title: Chip(
-                avatar: const Icon(Icons.person, size: 16, color: AppColors.primary),
+                avatar: const Icon(
+                  Icons.person,
+                  size: 16,
+                  color: AppColors.primary,
+                ),
                 label: const Text(
                   'Guest Mode',
                   style: TextStyle(
@@ -88,13 +118,17 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.primary,
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(vertical: AppConstants.paddingMedium),
+            padding: const EdgeInsets.symmetric(
+              vertical: AppConstants.paddingMedium,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Header (Greeting & Notification Icon)
+                // HEADER
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.paddingMedium,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -117,14 +151,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: const Badge(
-                          label: Text('2'),
-                          backgroundColor: AppColors.secondary,
-                          child: Icon(Icons.notifications_none_outlined, size: 28.0),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/notifications');
+                      Consumer<AuthProvider>(
+                        builder: (context, authProvider, child) {
+                          final isGuest = authProvider.isGuest;
+                          return IconButton(
+                            icon: Badge(
+                              label: isGuest ? null : const Text('2'),
+                              backgroundColor: AppColors.secondary,
+                              isLabelVisible: !isGuest,
+                              child: Icon(
+                                Icons.notifications_none_outlined,
+                                size: 28.0,
+                                color: isGuest ? Colors.grey[400] : null,
+                              ),
+                            ),
+                            onPressed: isGuest
+                                ? () => showGuestDialog(context)
+                                : () => Navigator.pushNamed(
+                                    context,
+                                    '/notifications',
+                                  ),
+                          );
                         },
                       ),
                     ],
@@ -132,29 +179,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 AppConstants.spacingMedium,
 
-                // 2. Search & Filter Row
+                // SEARCH & FILTER
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.paddingMedium,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppColors.surface,
-                            borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusSmall,
+                            ),
                             border: Border.all(color: AppColors.border),
                           ),
                           child: TextField(
                             controller: _searchController,
-                            onChanged: (val) {
-                              productProvider.setSearchQuery(val);
-                            },
+                            onChanged: (val) =>
+                                productProvider.setSearchQuery(val),
                             decoration: InputDecoration(
                               hintText: 'Search brand, model, features...',
-                              prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
+                              prefixIcon: const Icon(
+                                Icons.search,
+                                color: AppColors.textSecondary,
+                              ),
                               suffixIcon: _searchController.text.isNotEmpty
                                   ? IconButton(
-                                      icon: const Icon(Icons.clear, color: AppColors.textSecondary),
+                                      icon: const Icon(
+                                        Icons.clear,
+                                        color: AppColors.textSecondary,
+                                      ),
                                       onPressed: () {
                                         _searchController.clear();
                                         productProvider.setSearchQuery('');
@@ -162,7 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     )
                                   : null,
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(vertical: 12.0),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 12.0,
+                              ),
                             ),
                           ),
                         ),
@@ -174,12 +232,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.all(12.0),
                           decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.radiusSmall,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.tune,
-                            color: Colors.white,
-                          ),
+                          child: const Icon(Icons.tune, color: Colors.white),
                         ),
                       ),
                     ],
@@ -187,10 +244,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 AppConstants.spacingMedium,
 
-                // If searching, show search result view
+                // SEARCH RESULTS
                 if (isSearching) ...[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.paddingMedium,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -211,33 +270,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   productProvider.isLoading
                       ? ShimmerLoader.buildGridLoader()
                       : filteredWatches.isEmpty
-                          ? const EmptyState(
-                              icon: Icons.search_off_outlined,
-                              title: 'No Watches Found',
-                              description: 'Try adjusting your search terms or filter constraints.',
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(AppConstants.paddingMedium),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      ? const EmptyState(
+                          icon: Icons.search_off_outlined,
+                          title: 'No Watches Found',
+                          description:
+                              'Try adjusting your search terms or filter constraints.',
+                        )
+                      : GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(
+                            AppConstants.paddingMedium,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: AppConstants.paddingMedium,
                                 crossAxisSpacing: AppConstants.paddingMedium,
                                 childAspectRatio: 0.72,
                               ),
-                              itemCount: filteredWatches.length,
-                              itemBuilder: (context, index) {
-                                return WatchCard(watch: filteredWatches[index]);
-                              },
-                            ),
+                          itemCount: filteredWatches.length,
+                          itemBuilder: (context, index) =>
+                              WatchCard(watch: filteredWatches[index]),
+                        ),
                 ] else ...[
-                  // 3. Banner Promos Slider
+                  // BANNER
                   SizedBox(
                     height: 150.0,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.paddingMedium,
+                      ),
                       children: [
                         _buildPromoBanner(
                           'Summer Gold Collection',
@@ -256,9 +320,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   AppConstants.spacingLarge,
 
-                  // 4. Categories Selection Row
+                  // CATEGORIES
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.paddingMedium,
+                    ),
                     child: Text(
                       'Categories',
                       style: theme.textTheme.titleLarge?.copyWith(
@@ -271,14 +337,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 40.0,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.paddingMedium,
+                      ),
                       itemCount: productProvider.categories.length + 1,
                       itemBuilder: (context, index) {
                         final isAll = index == 0;
-                        final categoryName = isAll ? 'All' : productProvider.categories[index - 1];
+                        final categoryName = isAll
+                            ? 'All'
+                            : productProvider.categories[index - 1];
                         final isSelected = isAll
                             ? productProvider.selectedCategories.isEmpty
-                            : productProvider.selectedCategories.contains(categoryName);
+                            : productProvider.selectedCategories.contains(
+                                categoryName,
+                              );
 
                         return Padding(
                           padding: const EdgeInsets.only(right: 8.0),
@@ -288,12 +360,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             selectedColor: AppColors.primary,
                             backgroundColor: AppColors.surface,
                             labelStyle: TextStyle(
-                              color: isSelected ? Colors.white : AppColors.textSecondary,
+                              color: isSelected
+                                  ? Colors.white
+                                  : AppColors.textSecondary,
                               fontWeight: FontWeight.w600,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.radiusSmall),
-                              side: BorderSide(color: isSelected ? AppColors.primary : AppColors.border),
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusSmall,
+                              ),
+                              side: BorderSide(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.border,
+                              ),
                             ),
                             onSelected: (selected) {
                               if (isAll) {
@@ -309,43 +389,47 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   AppConstants.spacingLarge,
 
-                  // 5. Featured Watches Section
-                  _buildProductSection(
-                    context,
-                    'Featured Watches',
-                    productProvider.allWatches.where((w) => w.isFeatured).toList(),
-                    productProvider.isLoading,
-                  ),
+                  // FEATURED WATCHES
+                  if (featuredWatches.isNotEmpty)
+                    _buildProductSection(
+                      context,
+                      'Featured Watches',
+                      featuredWatches,
+                      productProvider.isLoading,
+                    ),
                   AppConstants.spacingLarge,
 
-                  // 6. Popular Watches Section
-                  _buildProductSection(
-                    context,
-                    'Popular Timepieces',
-                    productProvider.allWatches.where((w) => w.isPopular).toList(),
-                    productProvider.isLoading,
-                  ),
+                  // POPULAR WATCHES
+                  if (popularWatches.isNotEmpty)
+                    _buildProductSection(
+                      context,
+                      'Popular Timepieces',
+                      popularWatches,
+                      productProvider.isLoading,
+                    ),
                   AppConstants.spacingLarge,
 
-                  // 7. New Arrivals Section
-                  _buildProductSection(
-                    context,
-                    'New Arrivals',
-                    productProvider.allWatches.where((w) => w.isNewArrival).toList(),
-                    productProvider.isLoading,
-                  ),
+                  // NEW ARRIVALS
+                  if (newArrivals.isNotEmpty)
+                    _buildProductSection(
+                      context,
+                      'New Arrivals',
+                      newArrivals,
+                      productProvider.isLoading,
+                    ),
                   AppConstants.spacingLarge,
 
-                  // 8. Recommended Watches Section
-                  _buildProductSection(
-                    context,
-                    'Recommended for You',
-                    productProvider.allWatches.where((w) => w.isRecommended).toList(),
-                    productProvider.isLoading,
-                  ),
+                  // RECOMMENDED
+                  if (recommendedWatches.isNotEmpty)
+                    _buildProductSection(
+                      context,
+                      'Recommended for You',
+                      recommendedWatches,
+                      productProvider.isLoading,
+                    ),
                   AppConstants.spacingLarge,
 
-                  // 9. Recently Viewed Watches Section
+                  // RECENTLY VIEWED
                   if (productProvider.recentlyViewed.isNotEmpty) ...[
                     _buildProductSection(
                       context,
@@ -355,6 +439,45 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     AppConstants.spacingLarge,
                   ],
+
+                  // EMPTY STATE
+                  if (productProvider.allWatches.isEmpty &&
+                      !productProvider.isLoading &&
+                      productProvider.errorMessage == null)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40.0),
+                        child: Text('No products available.'),
+                      ),
+                    ),
+
+                  // ERROR MESSAGE
+                  if (productProvider.errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 48,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              productProvider.errorMessage!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                            const SizedBox(height: 8),
+                            ElevatedButton(
+                              onPressed: () => productProvider.fetchWatches(),
+                              child: const Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                 ],
               ],
             ),
@@ -364,7 +487,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPromoBanner(String title, String subtitle, String imageUrl, ThemeData theme) {
+  Widget _buildPromoBanner(
+    String title,
+    String subtitle,
+    String imageUrl,
+    ThemeData theme,
+  ) {
     return Container(
       width: 300.0,
       margin: const EdgeInsets.only(right: 12.0),
@@ -374,7 +502,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Stack(
         children: [
-          // Banner Background Image with overlay
           Positioned.fill(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(AppConstants.radiusMedium),
@@ -384,7 +511,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // Banner Texts
           Padding(
             padding: const EdgeInsets.all(AppConstants.paddingMedium),
             child: Column(
@@ -424,16 +550,67 @@ class _HomeScreenState extends State<HomeScreen> {
   ) {
     final theme = Theme.of(context);
 
+    if (list.isEmpty && !isLoading) return const SizedBox.shrink();
+
+    // ✅ rating_count se total reviews (NOT reviews.length)
+    final totalRatings = list.fold(
+      0,
+      (sum, watch) => sum + (watch.ratingCount ?? 0),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
-          child: Text(
-            title,
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: AppColors.primary,
-            ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppConstants.paddingMedium,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  // ✅ rating_count se badge
+                  if (totalRatings > 0) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        '$totalRatings ratings',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: AppColors.secondary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/catalog',
+                    arguments: {'section': title},
+                  );
+                },
+                child: const Text('See All'),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 12.0),
@@ -442,24 +619,35 @@ class _HomeScreenState extends State<HomeScreen> {
           child: isLoading
               ? ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.paddingMedium,
+                  ),
                   itemCount: 3,
                   itemBuilder: (context, index) {
                     return Container(
                       width: 170.0,
-                      margin: const EdgeInsets.only(right: AppConstants.paddingMedium),
-                      child: ShimmerLoader.buildGridLoader(count: 1, aspectRatio: 0.72),
+                      margin: const EdgeInsets.only(
+                        right: AppConstants.paddingMedium,
+                      ),
+                      child: ShimmerLoader.buildGridLoader(
+                        count: 1,
+                        aspectRatio: 0.72,
+                      ),
                     );
                   },
                 )
               : ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingMedium),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.paddingMedium,
+                  ),
                   itemCount: list.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: 170.0,
-                      margin: const EdgeInsets.only(right: AppConstants.paddingMedium),
+                      margin: const EdgeInsets.only(
+                        right: AppConstants.paddingMedium,
+                      ),
                       child: WatchCard(watch: list[index]),
                     );
                   },
@@ -470,7 +658,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// MODERN FILTER BOTTOM SHEET WIDGET
+// =============================================
+// FILTER BOTTOM SHEET (Keep as is - already working)
+// =============================================
+
 class FilterBottomSheet extends StatefulWidget {
   const FilterBottomSheet({super.key});
 
@@ -499,7 +690,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    final productProvider = Provider.of<ProductProvider>(
+      context,
+      listen: false,
+    );
 
     return DraggableScrollableSheet(
       expand: false,
@@ -513,7 +707,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Indicator line
               Center(
                 child: Container(
                   width: 40.0,
@@ -528,10 +721,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Filter & Sort',
-                    style: theme.textTheme.titleLarge,
-                  ),
+                  Text('Filter & Sort', style: theme.textTheme.titleLarge),
                   TextButton(
                     onPressed: () {
                       setState(() {
@@ -549,33 +739,39 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               const Divider(),
               AppConstants.spacingMedium,
 
-              // 1. Sort By
+              // Sort By
               Text('Sort By', style: theme.textTheme.titleSmall),
               const SizedBox(height: 8.0),
               Wrap(
                 spacing: 8.0,
                 runSpacing: 4.0,
-                children: ['Popularity', 'Newest', 'Price Low → High', 'Price High → Low'].map((opt) {
-                  final isSelected = _tempSortBy == opt;
-                  return ChoiceChip(
-                    label: Text(opt),
-                    selected: isSelected,
-                    selectedColor: AppColors.primary,
-                    backgroundColor: AppColors.surface,
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : AppColors.textSecondary,
-                    ),
-                    onSelected: (selected) {
-                      setState(() {
-                        _tempSortBy = opt;
-                      });
-                    },
-                  );
-                }).toList(),
+                children:
+                    [
+                      'Popularity',
+                      'Newest',
+                      'Price Low → High',
+                      'Price High → Low',
+                    ].map((opt) {
+                      final isSelected = _tempSortBy == opt;
+                      return ChoiceChip(
+                        label: Text(opt),
+                        selected: isSelected,
+                        selectedColor: AppColors.primary,
+                        backgroundColor: AppColors.surface,
+                        labelStyle: TextStyle(
+                          color: isSelected
+                              ? Colors.white
+                              : AppColors.textSecondary,
+                        ),
+                        onSelected: (selected) {
+                          setState(() => _tempSortBy = opt);
+                        },
+                      );
+                    }).toList(),
               ),
               AppConstants.spacingMedium,
 
-              // 2. Brands
+              // Brands
               Text('Brands', style: theme.textTheme.titleSmall),
               const SizedBox(height: 8.0),
               Wrap(
@@ -590,7 +786,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     checkmarkColor: Colors.white,
                     backgroundColor: AppColors.surface,
                     labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : AppColors.textSecondary,
+                      color: isSelected
+                          ? Colors.white
+                          : AppColors.textSecondary,
                     ),
                     onSelected: (selected) {
                       setState(() {
@@ -606,14 +804,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
               AppConstants.spacingMedium,
 
-              // 3. Price Range Slider
+              // Price Range
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Price Range', style: theme.textTheme.titleSmall),
                   Text(
                     '\$${_tempPriceRange.start.toStringAsFixed(0)} - \$${_tempPriceRange.end.toStringAsFixed(0)}',
-                    style: theme.textTheme.titleSmall?.copyWith(color: AppColors.primary),
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                 ],
               ),
@@ -625,14 +825,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 activeColor: AppColors.primary,
                 inactiveColor: AppColors.border,
                 onChanged: (values) {
-                  setState(() {
-                    _tempPriceRange = values;
-                  });
+                  setState(() => _tempPriceRange = values);
                 },
               ),
               AppConstants.spacingMedium,
 
-              // 4. Rating Selector
+              // Rating
               Text('Minimum Rating', style: theme.textTheme.titleSmall),
               const SizedBox(height: 8.0),
               Row(
@@ -640,7 +838,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   final starVal = index + 1.0;
                   return IconButton(
                     icon: Icon(
-                      _tempMinRating >= starVal ? Icons.star : Icons.star_border,
+                      _tempMinRating >= starVal
+                          ? Icons.star
+                          : Icons.star_border,
                       color: AppColors.secondary,
                       size: 32.0,
                     ),
@@ -663,17 +863,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Save filters back to provider
                     productProvider.setSortBy(_tempSortBy);
                     productProvider.setMinRating(_tempMinRating);
                     productProvider.setPriceRange(_tempPriceRange);
 
-                    // Reset and sync brand filters
-                    productProvider.resetFilters(); // resets first, let's just write setters to avoid conflict
-                    
-                    // Direct mutations
                     productProvider.setSearchQuery('');
-                    // For brands/categories list update:
                     for (var brand in _tempBrands) {
                       productProvider.toggleBrand(brand);
                     }

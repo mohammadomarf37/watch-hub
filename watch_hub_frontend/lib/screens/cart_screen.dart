@@ -109,7 +109,7 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 2.0),
                                     Text(
-                                      'Size: ${item.size}  |  Color: ${item.color}',
+                                      'Size: ${item.size}',
                                       style: theme.textTheme.bodyMedium?.copyWith(
                                         fontSize: 12.0,
                                       ),

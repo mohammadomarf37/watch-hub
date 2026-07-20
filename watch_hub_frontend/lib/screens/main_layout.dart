@@ -13,11 +13,8 @@ import 'package:watch_hub_frontend/screens/profile_screen.dart';
 
 class MainLayout extends StatefulWidget {
   final int initialIndex;
-  
-  const MainLayout({
-    super.key,
-    this.initialIndex = 0,
-  });
+
+  const MainLayout({super.key, this.initialIndex = 0});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -40,39 +37,56 @@ class _MainLayoutState extends State<MainLayout> {
     _currentIndex = widget.initialIndex;
   }
 
+  // ✅ Check if user is authenticated
+  bool _isAuthenticated(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    return authProvider.isAuthenticated && authProvider.token != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+
+    // ✅ Guest mode - only home is accessible
+    final isGuest = authProvider.isGuest || authProvider.token == null;
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          final authProvider = Provider.of<AuthProvider>(context, listen: false);
-          if (index != 0 && authProvider.isGuest) {
-            showGuestDialog(context);
-          } else {
+          // ✅ Home is always accessible
+          if (index == 0) {
             setState(() {
               _currentIndex = index;
             });
+            return;
           }
+
+          // ✅ Check if user is authenticated for other tabs
+          if (isGuest) {
+            showGuestDialog(context);
+            return;
+          }
+
+          // ✅ Authenticated user can access all tabs
+          setState(() {
+            _currentIndex = index;
+          });
         },
         backgroundColor: Colors.white,
         indicatorColor: AppColors.primary.withOpacity(0.08),
         elevation: 10.0,
         destinations: [
-          // Home
+          // Home - Always accessible
           const NavigationDestination(
             icon: Icon(Icons.home_outlined, color: AppColors.textSecondary),
             selectedIcon: Icon(Icons.home, color: AppColors.primary),
             label: 'Home',
           ),
-          // Wishlist
+          // Wishlist - Guest restricted
           NavigationDestination(
             icon: Badge(
               label: wishlistProvider.favorites.isNotEmpty
@@ -80,12 +94,18 @@ class _MainLayoutState extends State<MainLayout> {
                   : null,
               isLabelVisible: wishlistProvider.favorites.isNotEmpty,
               backgroundColor: AppColors.favoriteRed,
-              child: const Icon(Icons.favorite_outline, color: AppColors.textSecondary),
+              child: Icon(
+                Icons.favorite_outline,
+                color: isGuest ? AppColors.textLight : AppColors.textSecondary,
+              ),
             ),
-            selectedIcon: const Icon(Icons.favorite, color: AppColors.favoriteRed),
+            selectedIcon: Icon(
+              Icons.favorite,
+              color: isGuest ? AppColors.textLight : AppColors.favoriteRed,
+            ),
             label: 'Wishlist',
           ),
-          // Cart
+          // Cart - Guest restricted
           NavigationDestination(
             icon: Badge(
               label: cartProvider.itemCount > 0
@@ -93,18 +113,27 @@ class _MainLayoutState extends State<MainLayout> {
                   : null,
               isLabelVisible: cartProvider.itemCount > 0,
               backgroundColor: AppColors.secondary,
-              child: const Icon(Icons.shopping_cart_outlined, color: AppColors.textSecondary),
+              child: Icon(
+                Icons.shopping_cart_outlined,
+                color: isGuest ? AppColors.textLight : AppColors.textSecondary,
+              ),
             ),
-            selectedIcon: const Icon(Icons.shopping_cart, color: AppColors.primary),
+            selectedIcon: Icon(
+              Icons.shopping_cart,
+              color: isGuest ? AppColors.textLight : AppColors.primary,
+            ),
             label: 'Cart',
           ),
-          // Orders
+          // Orders - Guest restricted
           const NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined, color: AppColors.textSecondary),
+            icon: Icon(
+              Icons.receipt_long_outlined,
+              color: AppColors.textSecondary,
+            ),
             selectedIcon: Icon(Icons.receipt_long, color: AppColors.primary),
             label: 'Orders',
           ),
-          // Profile
+          // Profile - Guest restricted
           const NavigationDestination(
             icon: Icon(Icons.person_outline, color: AppColors.textSecondary),
             selectedIcon: Icon(Icons.person, color: AppColors.primary),

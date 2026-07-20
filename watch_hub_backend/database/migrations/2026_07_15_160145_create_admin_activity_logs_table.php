@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_activity_log', function (Blueprint $table) {
+        Schema::create('admin_activity_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('admin_id')->constrained('users')->cascadeOnDelete();
             $table->string('action');

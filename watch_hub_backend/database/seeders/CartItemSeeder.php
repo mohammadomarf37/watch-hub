@@ -14,9 +14,14 @@ class CartItemSeeder extends Seeder
         $carts = Cart::all();
         $variants = WatchVariant::all();
 
+        // Check if variants exist
+        if ($variants->count() == 0) {
+            $this->command->info('No variants found, skipping CartItemSeeder');
+            return;
+        }
+
         foreach ($carts as $cart) {
-            // 0-3 items per cart
-            $itemCount = rand(0, 3);
+            $itemCount = rand(0, min(3, $variants->count()));
 
             if ($itemCount > 0) {
                 $selectedVariants = $variants->random($itemCount);

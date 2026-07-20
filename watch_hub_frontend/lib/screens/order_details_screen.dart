@@ -111,7 +111,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 2.0),
                               Text(
-                                'Size: ${item.size}  |  Color: ${item.color}',
+                                'Size: ${item.size}',
                                 style: const TextStyle(
                                   color: AppColors.textSecondary,
                                   fontSize: 11.0,

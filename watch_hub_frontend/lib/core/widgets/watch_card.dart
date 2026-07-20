@@ -13,10 +13,7 @@ import 'package:watch_hub_frontend/providers/wishlist_provider.dart';
 class WatchCard extends StatelessWidget {
   final Watch watch;
 
-  const WatchCard({
-    super.key,
-    required this.watch,
-  });
+  const WatchCard({super.key, required this.watch});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,11 @@ class WatchCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.productDetails, arguments: watch);
+        Navigator.pushNamed(
+          context,
+          AppRoutes.productDetails,
+          arguments: watch,
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -58,9 +59,11 @@ class WatchCard extends StatelessWidget {
                       width: double.infinity,
                       color: AppColors.surface,
                       child: Hero(
-                        tag: 'watch-hero-${watch.id}',
+                        tag: 'watch-hero-${watch.id}-${UniqueKey().toString()}',
                         child: WatchImage(
-                          imagePath: watch.images.isNotEmpty ? watch.images.first : '',
+                          imagePath: watch.images.isNotEmpty
+                              ? watch.images.first
+                              : '',
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -113,7 +116,7 @@ class WatchCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              '(${watch.reviews.length})',
+                              '(${watch.ratingCount ?? 0})',
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: AppColors.textLight,
                               ),
@@ -133,25 +136,29 @@ class WatchCard extends StatelessWidget {
                                   if (hasDiscount) ...[
                                     Text(
                                       '${AppConstants.currencySymbol}${watch.price.toStringAsFixed(2)}',
-                                      style: theme.textTheme.labelSmall?.copyWith(
-                                        color: AppColors.textLight,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
+                                      style: theme.textTheme.labelSmall
+                                          ?.copyWith(
+                                            color: AppColors.textLight,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
                                     ),
                                     Text(
                                       '${AppConstants.currencySymbol}${watch.discountedPrice.toStringAsFixed(2)}',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: AppColors.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                   ] else ...[
                                     Text(
                                       '${AppConstants.currencySymbol}${watch.price.toStringAsFixed(2)}',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: AppColors.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
                                   ],
                                 ],
@@ -160,16 +167,25 @@ class WatchCard extends StatelessWidget {
                             // Quick Add to Cart Button
                             GestureDetector(
                               onTap: () {
-                                final auth = Provider.of<AuthProvider>(context, listen: false);
+                                final auth = Provider.of<AuthProvider>(
+                                  context,
+                                  listen: false,
+                                );
                                 if (auth.isGuest) {
                                   showGuestDialog(context);
                                 } else {
-                                  final color = watch.colors.isNotEmpty ? watch.colors.first : 'Default';
-                                  final size = watch.sizes.isNotEmpty ? watch.sizes.first : 'Standard';
-                                  cartProvider.addToCart(watch, color: color, size: size);
+                                  final color = watch.colors.isNotEmpty
+                                      ? watch.colors.first
+                                      : 'Default';
+                                  final size = watch.sizes.isNotEmpty
+                                      ? watch.sizes.first
+                                      : 'Standard';
+                                  cartProvider.addToCart(watch, size: size);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text('${watch.model} added to Cart'),
+                                      content: Text(
+                                        '${watch.model} added to Cart',
+                                      ),
                                       duration: const Duration(seconds: 2),
                                       action: SnackBarAction(
                                         label: 'VIEW CART',
@@ -209,7 +225,10 @@ class WatchCard extends StatelessWidget {
                 right: 8.0,
                 child: GestureDetector(
                   onTap: () {
-                    final auth = Provider.of<AuthProvider>(context, listen: false);
+                    final auth = Provider.of<AuthProvider>(
+                      context,
+                      listen: false,
+                    );
                     if (auth.isGuest) {
                       showGuestDialog(context);
                     } else {
@@ -231,7 +250,9 @@ class WatchCard extends StatelessWidget {
                     ),
                     child: Icon(
                       isFav ? Icons.favorite : Icons.favorite_border,
-                      color: isFav ? AppColors.favoriteRed : AppColors.textLight,
+                      color: isFav
+                          ? AppColors.favoriteRed
+                          : AppColors.textLight,
                       size: 18.0,
                     ),
                   ),
@@ -249,7 +270,9 @@ class WatchCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.secondary,
-                      borderRadius: BorderRadius.circular(AppConstants.radiusXS),
+                      borderRadius: BorderRadius.circular(
+                        AppConstants.radiusXS,
+                      ),
                     ),
                     child: Text(
                       '-${(watch.discount * 100).toStringAsFixed(0)}%',

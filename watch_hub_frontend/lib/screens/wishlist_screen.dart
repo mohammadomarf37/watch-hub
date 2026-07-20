@@ -140,9 +140,9 @@ class WishlistScreen extends StatelessWidget {
                                           height: 32.0,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              final color = watch.colors.isNotEmpty ? watch.colors.first : 'Default';
+                                              // final color = watch.colors.isNotEmpty ? watch.colors.first : 'Default';
                                               final size = watch.sizes.isNotEmpty ? watch.sizes.first : 'Standard';
-                                              cartProvider.addToCart(watch, color: color, size: size);
+                                              cartProvider.addToCart(watch, size: size);
                                               wishlistProvider.removeFavorite(watch);
 
                                               ScaffoldMessenger.of(context).showSnackBar(

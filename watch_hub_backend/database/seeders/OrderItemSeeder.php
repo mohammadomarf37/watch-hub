@@ -15,15 +15,22 @@ class OrderItemSeeder extends Seeder
         $orders = Order::all();
         $watches = Watch::all();
 
+        // Check if watches exist
+        if ($watches->count() == 0) {
+            $this->command->info('No watches found, skipping OrderItemSeeder');
+            return;
+        }
+
         foreach ($orders as $order) {
-            // 1-3 items per order
-            $itemCount = rand(1, 3);
+            $itemCount = rand(1, min(3, $watches->count()));
             $selectedWatches = $watches->random($itemCount);
 
             foreach ($selectedWatches as $watch) {
                 $variant = WatchVariant::where('watch_id', $watch->id)->first();
 
-                if (!$variant) continue;
+                if (!$variant) {
+                    continue;
+                }
 
                 $quantity = rand(1, 2);
                 $price = $watch->discounted_price ?? $watch->base_price;

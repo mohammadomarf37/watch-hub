@@ -4,6 +4,7 @@ import 'package:watch_hub_frontend/core/constants/app_constants.dart';
 import 'package:watch_hub_frontend/core/routes/app_routes.dart';
 import 'package:watch_hub_frontend/core/utils/image_helper.dart';
 import 'package:watch_hub_frontend/core/widgets/custom_button.dart';
+import 'package:watch_hub_frontend/services/storage_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -15,22 +16,26 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+  bool _isNavigating = false; // ✅ Prevent duplicate navigation
 
   final List<Map<String, String>> _onboardingData = [
     {
       'title': AppConstants.onboardingTitle1,
       'subtitle': AppConstants.onboardingSubtitle1,
-      'image': 'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&auto=format&fit=crop&q=80',
+      'image':
+          'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&auto=format&fit=crop&q=80',
     },
     {
       'title': AppConstants.onboardingTitle2,
       'subtitle': AppConstants.onboardingSubtitle2,
-      'image': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=80',
+      'image':
+          'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=80',
     },
     {
       'title': AppConstants.onboardingTitle3,
       'subtitle': AppConstants.onboardingSubtitle3,
-      'image': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&auto=format&fit=crop&q=80',
+      'image':
+          'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&auto=format&fit=crop&q=80',
     },
   ];
 
@@ -41,7 +46,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _onSkip() {
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
+    if (_isNavigating) return;
+    _isNavigating = true;
+    _saveAndNavigate();
   }
 
   void _onNext() {
@@ -51,7 +58,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacementNamed(context, AppRoutes.login);
+      if (_isNavigating) return;
+      _isNavigating = true;
+      _saveAndNavigate();
+    }
+  }
+
+  Future<void> _saveAndNavigate() async {
+    try {
+      // ✅ Save onboarding status
+      final storage = StorageService();
+      await storage.setOnboardingSeen(true);
+      print('🟡 [ONBOARDING] Onboarding marked as seen');
+
+      if (mounted) {
+        // ✅ Navigate to login with pushReplacement
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      }
+    } catch (e) {
+      print('🔴 [ONBOARDING] Error: $e');
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      }
     }
   }
 
@@ -65,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         actions: [
           if (_currentIndex < _onboardingData.length - 1)
             TextButton(
-              onPressed: _onSkip,
+              onPressed: _isNavigating ? null : _onSkip,
               child: const Text(
                 'Skip',
                 style: TextStyle(
@@ -93,7 +121,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     itemBuilder: (context, index) {
                       final item = _onboardingData[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLarge),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.paddingLarge,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -102,9 +132,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               flex: 3,
                               child: Container(
                                 width: double.infinity,
-                                margin: const EdgeInsets.only(bottom: AppConstants.paddingLarge),
+                                margin: const EdgeInsets.only(
+                                  bottom: AppConstants.paddingLarge,
+                                ),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+                                  borderRadius: BorderRadius.circular(
+                                    AppConstants.radiusLarge,
+                                  ),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: AppColors.shadow,
@@ -114,9 +148,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   ],
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppConstants.radiusLarge),
+                                  borderRadius: BorderRadius.circular(
+                                    AppConstants.radiusLarge,
+                                  ),
                                   child: WatchImage(
-                                    imagePath: item['image'],
+                                    imagePath: item['image']!,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -130,10 +166,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   Text(
                                     item['title']!,
                                     textAlign: TextAlign.center,
-                                    style: theme.textTheme.headlineMedium?.copyWith(
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: theme.textTheme.headlineMedium
+                                        ?.copyWith(
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                   ),
                                   AppConstants.spacingMedium,
                                   Text(
@@ -168,16 +205,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             height: 8.0,
                             width: _currentIndex == index ? 24.0 : 8.0,
                             decoration: BoxDecoration(
-                              color: _currentIndex == index ? AppColors.primary : AppColors.border,
-                              borderRadius: BorderRadius.circular(AppConstants.radiusCircular),
+                              color: _currentIndex == index
+                                  ? AppColors.primary
+                                  : AppColors.border,
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusCircular,
+                              ),
                             ),
                           ),
                         ),
                       ),
                       // Action Button
                       CustomButton(
-                        label: _currentIndex == _onboardingData.length - 1 ? 'GET STARTED' : 'NEXT',
-                        onPressed: _onNext,
+                        label: _currentIndex == _onboardingData.length - 1
+                            ? 'GET STARTED'
+                            : 'NEXT',
+                        onPressed: _isNavigating ? null : _onNext,
                         width: 140.0,
                         height: 48.0,
                       ),

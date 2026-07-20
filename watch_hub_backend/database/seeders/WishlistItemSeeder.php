@@ -14,9 +14,14 @@ class WishlistItemSeeder extends Seeder
         $wishlists = Wishlist::all();
         $variants = WatchVariant::all();
 
+        // Check if variants exist
+        if ($variants->count() == 0) {
+            $this->command->info('No variants found, skipping WishlistItemSeeder');
+            return;
+        }
+
         foreach ($wishlists as $wishlist) {
-            // 0-5 items per wishlist
-            $itemCount = rand(0, 5);
+            $itemCount = rand(0, min(5, $variants->count()));
 
             if ($itemCount > 0) {
                 $selectedVariants = $variants->random($itemCount);

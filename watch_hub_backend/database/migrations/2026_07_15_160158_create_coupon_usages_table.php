@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupon_usage', function (Blueprint $table) {
+        Schema::create('coupon_usages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('coupon_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

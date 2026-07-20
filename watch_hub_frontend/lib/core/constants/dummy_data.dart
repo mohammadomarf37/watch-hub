@@ -34,9 +34,28 @@ class DummyData {
   ];
 
   static final List<Review> _reviews = [
-    Review(id: 'r1', userName: 'John Doe', rating: 5.0, comment: 'Absolutely brilliant craftsmanship. Exceeded all expectations!', date: DateTime.now().subtract(const Duration(days: 3))),
-    Review(id: 'r2', userName: 'Sarah Jenkins', rating: 4.5, comment: 'Gorgeous look, fits perfectly on my wrist. The dial color is striking.', date: DateTime.now().subtract(const Duration(days: 12))),
-    Review(id: 'r3', userName: 'Alex Rivera', rating: 4.0, comment: 'Solid build quality. Keeps accurate time. Highly recommended.', date: DateTime.now().subtract(const Duration(days: 20))),
+    Review(
+      id: 'r1',
+      userName: 'John Doe',
+      rating: 5.0,
+      comment: 'Absolutely brilliant craftsmanship. Exceeded all expectations!',
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Review(
+      id: 'r2',
+      userName: 'Sarah Jenkins',
+      rating: 4.5,
+      comment:
+          'Gorgeous look, fits perfectly on my wrist. The dial color is striking.',
+      date: DateTime.now().subtract(const Duration(days: 12)),
+    ),
+    Review(
+      id: 'r3',
+      userName: 'Alex Rivera',
+      rating: 4.0,
+      comment: 'Solid build quality. Keeps accurate time. Highly recommended.',
+      date: DateTime.now().subtract(const Duration(days: 20)),
+    ),
   ];
 
   static final List<Watch> watches = [
@@ -48,7 +67,8 @@ class DummyData {
       category: 'Luxury',
       price: 10500.00,
       discount: 0.05,
-      description: 'The archetype of the diver\'s watch, the Rolex Submariner Date exemplifies the historic link between Rolex and deep-sea exploration.',
+      description:
+          'The archetype of the diver\'s watch, the Rolex Submariner Date exemplifies the historic link between Rolex and deep-sea exploration.',
       specifications: {
         'Movement': 'Automatic Calibre 3235',
         'Case Material': 'Oystersteel',
@@ -65,9 +85,9 @@ class DummyData {
       colors: ['Silver', 'Black', 'Green'],
       sizes: ['41mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'rolex-2',
@@ -76,7 +96,8 @@ class DummyData {
       category: 'Luxury',
       price: 14800.00,
       discount: 0.0,
-      description: 'Designed to meet the demands of professional racing drivers, the Cosmograph Daytona is an icon joined at the join to high performance.',
+      description:
+          'Designed to meet the demands of professional racing drivers, the Cosmograph Daytona is an icon joined at the join to high performance.',
       specifications: {
         'Movement': 'Automatic Calibre 4130',
         'Case Material': '18ct Yellow Gold',
@@ -93,9 +114,9 @@ class DummyData {
       colors: ['Gold', 'Black dial'],
       sizes: ['40mm'],
       isFeatured: true,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: false,
     ),
     Watch(
       id: 'rolex-3',
@@ -104,7 +125,8 @@ class DummyData {
       category: 'Luxury',
       price: 9200.00,
       discount: 0.0,
-      description: 'The Rolex Datejust is the modern archetype of the classic watch, thanks to aesthetics and functions that transcend changes in fashion.',
+      description:
+          'The Rolex Datejust is the modern archetype of the classic watch, thanks to aesthetics and functions that transcend changes in fashion.',
       specifications: {
         'Movement': 'Automatic Calibre 3235',
         'Case Material': 'Oystersteel and White Gold',
@@ -121,9 +143,9 @@ class DummyData {
       colors: ['Blue Dial', 'Silver Dial', 'Dark Grey'],
       sizes: ['36mm', '41mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'rolex-4',
@@ -132,7 +154,8 @@ class DummyData {
       category: 'Luxury',
       price: 6400.00,
       discount: 0.0,
-      description: 'The Oyster Perpetual model expresses the essence of the Oyster concept, providing a clear and accurate time display.',
+      description:
+          'The Oyster Perpetual model expresses the essence of the Oyster concept, providing a clear and accurate time display.',
       specifications: {
         'Movement': 'Automatic Calibre 3230',
         'Case Material': 'Oystersteel',
@@ -149,9 +172,9 @@ class DummyData {
       colors: ['Silver', 'Green Dial', 'Tiffany Blue'],
       sizes: ['31mm', '36mm', '41mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
 
     // --- OMEGA (4) ---
@@ -162,7 +185,8 @@ class DummyData {
       category: 'Luxury',
       price: 7600.00,
       discount: 0.10,
-      description: 'The Speedmaster Moonwatch is one of the world’s most iconic timepieces, having been a part of all six moon landings.',
+      description:
+          'The Speedmaster Moonwatch is one of the world\'s most iconic timepieces, having been a part of all six moon landings.',
       specifications: {
         'Movement': 'Manual-winding Omega Calibre 3861',
         'Case Material': 'Stainless Steel',
@@ -179,9 +203,9 @@ class DummyData {
       colors: ['Black Dial', 'Silver Dial'],
       sizes: ['42mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'omega-2',
@@ -190,7 +214,8 @@ class DummyData {
       category: 'Sport',
       price: 5900.00,
       discount: 0.08,
-      description: 'Since 1993, the Seamaster Professional Diver 300M has enjoyed a legendary following. Today’s collection embraces that ocean heritage.',
+      description:
+          'Since 1993, the Seamaster Professional Diver 300M has enjoyed a legendary following. Today\'s collection embraces that ocean heritage.',
       specifications: {
         'Movement': 'Automatic Omega Calibre 8800',
         'Case Material': 'Stainless Steel',
@@ -207,9 +232,9 @@ class DummyData {
       colors: ['Blue Dial', 'Black Dial', 'White Dial'],
       sizes: ['42mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'omega-3',
@@ -218,7 +243,8 @@ class DummyData {
       category: 'Classic',
       price: 8900.00,
       discount: 0.0,
-      description: 'The dramatic and enduring design of the OMEGA Constellation is characterised by its famous half-moons, "claws" on the case.',
+      description:
+          'The dramatic and enduring design of the OMEGA Constellation is characterised by its famous half-moons, "claws" on the case.',
       specifications: {
         'Movement': 'Automatic Omega Calibre 8900',
         'Case Material': '18K Sedna Gold and Stainless Steel',
@@ -235,9 +261,9 @@ class DummyData {
       colors: ['Sedna Gold', 'Stainless Steel'],
       sizes: ['39mm'],
       isFeatured: true,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
     Watch(
       id: 'omega-4',
@@ -246,7 +272,8 @@ class DummyData {
       category: 'Classic',
       price: 6100.00,
       discount: 0.0,
-      description: 'The Seamaster Aqua Terra is a superb tribute to OMEGA’s rich maritime heritage, with a teak concept dial representing luxury yacht decks.',
+      description:
+          'The Seamaster Aqua Terra is a superb tribute to OMEGA\'s rich maritime heritage, with a teak concept dial representing luxury yacht decks.',
       specifications: {
         'Movement': 'Automatic Omega Calibre 8900',
         'Case Material': 'Stainless Steel',
@@ -263,9 +290,9 @@ class DummyData {
       colors: ['Green Dial', 'Teak Blue', 'Silver'],
       sizes: ['38mm', '41mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
 
     // --- CASIO (4) ---
@@ -276,7 +303,8 @@ class DummyData {
       category: 'Sport',
       price: 350.00,
       discount: 0.15,
-      description: 'Designed for extreme conditions on land, the Mudmaster is sealed to prevent entry of mud, sand, and dust, featuring Triple Sensor.',
+      description:
+          'Designed for extreme conditions on land, the Mudmaster is sealed to prevent entry of mud, sand, and dust, featuring Triple Sensor.',
       specifications: {
         'Movement': 'Quartz Tough Solar',
         'Case Material': 'Resin / Stainless steel bezel',
@@ -293,9 +321,9 @@ class DummyData {
       colors: ['Black', 'Tactical Green', 'Desert Tan'],
       sizes: ['Standard (Large)'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
     Watch(
       id: 'casio-2',
@@ -304,7 +332,8 @@ class DummyData {
       category: 'Classic',
       price: 49.99,
       discount: 0.0,
-      description: 'Retro classic style that never fades. An elegant, retro-futuristic digital metal watch with electro-luminescent backlight.',
+      description:
+          'Retro classic style that never fades. An elegant, retro-futuristic digital metal watch with electro-luminescent backlight.',
       specifications: {
         'Movement': 'Quartz Digital',
         'Case Material': 'Resin / Chrome plated',
@@ -321,9 +350,9 @@ class DummyData {
       colors: ['Silver', 'Gold', 'Gunmetal'],
       sizes: ['38.6mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'casio-3',
@@ -332,7 +361,8 @@ class DummyData {
       category: 'Sport',
       price: 120.00,
       discount: 0.0,
-      description: 'The ultra-thin carbon core guard structure analog-digital watch has captured the watch world with its octagonal bezel.',
+      description:
+          'The ultra-thin carbon core guard structure analog-digital watch has captured the watch world with its octagonal bezel.',
       specifications: {
         'Movement': 'Quartz Analog-Digital',
         'Case Material': 'Carbon / Resin',
@@ -349,9 +379,9 @@ class DummyData {
       colors: ['Stealth Black', 'Red', 'Grey', 'Navy Blue'],
       sizes: ['45.4mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'casio-4',
@@ -360,7 +390,8 @@ class DummyData {
       category: 'Sport',
       price: 180.00,
       discount: 0.10,
-      description: 'Elegant chronograph designed for motorsport enthusiasts, featuring carbon fiber look accents and multi-dial stopwatch functions.',
+      description:
+          'Elegant chronograph designed for motorsport enthusiasts, featuring carbon fiber look accents and multi-dial stopwatch functions.',
       specifications: {
         'Movement': 'Quartz Chronograph',
         'Case Material': 'Stainless steel',
@@ -377,9 +408,9 @@ class DummyData {
       colors: ['Silver-Black', 'Blue-Gold'],
       sizes: ['48.7mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- SEIKO (4) ---
@@ -390,7 +421,8 @@ class DummyData {
       category: 'Sport',
       price: 295.00,
       discount: 0.12,
-      description: 'For over 50 years, Seiko 5 Sports has delivered consistently high levels of reliability, durability, and performance.',
+      description:
+          'For over 50 years, Seiko 5 Sports has delivered consistently high levels of reliability, durability, and performance.',
       specifications: {
         'Movement': 'Automatic Calibre 4R36',
         'Case Material': 'Stainless Steel',
@@ -407,9 +439,9 @@ class DummyData {
       colors: ['Black Dial', 'Blue Pepsi Bezel', 'Orange Dial'],
       sizes: ['42.5mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'seiko-2',
@@ -418,7 +450,8 @@ class DummyData {
       category: 'Classic',
       price: 725.00,
       discount: 0.0,
-      description: 'Originally designed for Japanese mountain climbers, the modern Prospex Alpinist features an internal rotating compass ring.',
+      description:
+          'Originally designed for Japanese mountain climbers, the modern Prospex Alpinist features an internal rotating compass ring.',
       specifications: {
         'Movement': 'Automatic Calibre 6R35',
         'Case Material': 'Stainless Steel',
@@ -435,9 +468,9 @@ class DummyData {
       colors: ['Green Dial', 'Blue Dial', 'Cream Dial'],
       sizes: ['39.5mm'],
       isFeatured: true,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'seiko-3',
@@ -446,7 +479,8 @@ class DummyData {
       category: 'Classic',
       price: 450.00,
       discount: 0.0,
-      description: 'Inspired by the glamour of cocktail lounges, the Presage Cockail Time series boasts fine radial pattern pressed dials.',
+      description:
+          'Inspired by the glamour of cocktail lounges, the Presage Cockail Time series boasts fine radial pattern pressed dials.',
       specifications: {
         'Movement': 'Automatic Calibre 4R35',
         'Case Material': 'Stainless Steel',
@@ -463,9 +497,9 @@ class DummyData {
       colors: ['Ice Blue "Skydiving"', 'Espresso', 'Cherry Red'],
       sizes: ['40.5mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'seiko-4',
@@ -474,7 +508,8 @@ class DummyData {
       category: 'Sport',
       price: 495.00,
       discount: 0.10,
-      description: 'The Seiko Turtle is an iconic diver\'s watch featuring a comfortable cushion-shaped case resembling a turtle shell.',
+      description:
+          'The Seiko Turtle is an iconic diver\'s watch featuring a comfortable cushion-shaped case resembling a turtle shell.',
       specifications: {
         'Movement': 'Automatic Calibre 4R36',
         'Case Material': 'Stainless Steel',
@@ -491,9 +526,9 @@ class DummyData {
       colors: ['Black-Grey', 'Blue wave dial'],
       sizes: ['45mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- CITIZEN (3) ---
@@ -504,7 +539,8 @@ class DummyData {
       category: 'Sport',
       price: 375.00,
       discount: 0.15,
-      description: 'Powered by any light source, this Promaster Diver is an ISO-compliant, reliable diver\'s watch with a durable polyurethane strap.',
+      description:
+          'Powered by any light source, this Promaster Diver is an ISO-compliant, reliable diver\'s watch with a durable polyurethane strap.',
       specifications: {
         'Movement': 'Eco-Drive Quartz (Light powered)',
         'Case Material': 'Stainless Steel',
@@ -521,9 +557,9 @@ class DummyData {
       colors: ['Blue', 'Black'],
       sizes: ['44mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'citizen-2',
@@ -532,7 +568,8 @@ class DummyData {
       category: 'Classic',
       price: 450.00,
       discount: 0.0,
-      description: 'Brings ultra-modern styling straight to your wrist. A beautiful integrated steel sports bracelet watch with vibrant dials.',
+      description:
+          'Brings ultra-modern styling straight to your wrist. A beautiful integrated steel sports bracelet watch with vibrant dials.',
       specifications: {
         'Movement': 'Automatic Calibre 8210',
         'Case Material': 'Stainless Steel',
@@ -549,9 +586,9 @@ class DummyData {
       colors: ['Yellow Dial', 'Tiffany Blue Dial', 'Green Dial', 'Black'],
       sizes: ['40mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'citizen-3',
@@ -560,7 +597,8 @@ class DummyData {
       category: 'Sport',
       price: 395.00,
       discount: 0.10,
-      description: 'Designed for pilots, the Nighthawk features a circular slide rule bezel operated by an independent crown at 8 o\'clock.',
+      description:
+          'Designed for pilots, the Nighthawk features a circular slide rule bezel operated by an independent crown at 8 o\'clock.',
       specifications: {
         'Movement': 'Eco-Drive Quartz',
         'Case Material': 'Black Ion-Plated Stainless Steel',
@@ -577,9 +615,9 @@ class DummyData {
       colors: ['Tactical Black', 'Silver'],
       sizes: ['42mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- TISSOT (3) ---
@@ -590,7 +628,8 @@ class DummyData {
       category: 'Classic',
       price: 650.00,
       discount: 0.05,
-      description: 'An essential watch with a retro 1978 design. The integrated case and bracelet, paired with a waffle dial, is an absolute showstopper.',
+      description:
+          'An essential watch with a retro 1978 design. The integrated case and bracelet, paired with a waffle dial, is an absolute showstopper.',
       specifications: {
         'Movement': 'Automatic Powermatic 80 (80-hour reserve)',
         'Case Material': 'Stainless Steel',
@@ -607,9 +646,9 @@ class DummyData {
       colors: ['Blue Dial', 'Green Dial', 'Black Dial', 'Ice Blue'],
       sizes: ['35mm', '40mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'tissot-2',
@@ -618,7 +657,8 @@ class DummyData {
       category: 'Classic',
       price: 775.00,
       discount: 0.0,
-      description: 'The Tissot Gentleman is the perfect multi-purpose watch, both ergonomic and elegant in any circumstance, at home or in business.',
+      description:
+          'The Tissot Gentleman is the perfect multi-purpose watch, both ergonomic and elegant in any circumstance, at home or in business.',
       specifications: {
         'Movement': 'Automatic Powermatic 80 with Silicon hairspring',
         'Case Material': 'Stainless steel with 18k gold bezel',
@@ -635,9 +675,9 @@ class DummyData {
       colors: ['Brown leather', 'Steel blue dial'],
       sizes: ['40mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'tissot-3',
@@ -646,7 +686,8 @@ class DummyData {
       category: 'Sport',
       price: 525.00,
       discount: 0.10,
-      description: 'Designed for divers, combining high performance with style. Features unidirectional aluminum dive bezel and sub-second timers.',
+      description:
+          'Designed for divers, combining high performance with style. Features unidirectional aluminum dive bezel and sub-second timers.',
       specifications: {
         'Movement': 'Quartz Chronograph G10.212',
         'Case Material': 'Stainless Steel',
@@ -663,9 +704,9 @@ class DummyData {
       colors: ['Black bezel-Blue Dial', 'Red Bezel'],
       sizes: ['45.5mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- FOSSIL (3) ---
@@ -676,7 +717,8 @@ class DummyData {
       category: 'Classic',
       price: 249.00,
       discount: 0.20,
-      description: 'Nod to vintage aesthetics. Meticulously built vintage-style watch with stacked chronograph sub-dials and textured dial.',
+      description:
+          'Nod to vintage aesthetics. Meticulously built vintage-style watch with stacked chronograph sub-dials and textured dial.',
       specifications: {
         'Movement': 'Quartz Chronograph',
         'Case Material': 'Stainless Steel',
@@ -693,9 +735,9 @@ class DummyData {
       colors: ['Brown Leather', 'Steel Gold Accent'],
       sizes: ['43mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
     Watch(
       id: 'fossil-2',
@@ -704,7 +746,8 @@ class DummyData {
       category: 'Classic',
       price: 279.00,
       discount: 0.0,
-      description: 'A skeleton dial exposes the intricate inner workings of this industrial-inspired timepiece from townsman series.',
+      description:
+          'A skeleton dial exposes the intricate inner workings of this industrial-inspired timepiece from townsman series.',
       specifications: {
         'Movement': 'Automatic Mechanical (Self-winding)',
         'Case Material': 'Stainless Steel',
@@ -721,9 +764,9 @@ class DummyData {
       colors: ['Brown Leather Skeleton', 'Black Leather Silver case'],
       sizes: ['44mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'fossil-3',
@@ -732,7 +775,8 @@ class DummyData {
       category: 'Sport',
       price: 189.00,
       discount: 0.15,
-      description: 'The industrial details of the Machine watch line make it an instant classic, with knurled bezels and high-durability coatings.',
+      description:
+          'The industrial details of the Machine watch line make it an instant classic, with knurled bezels and high-durability coatings.',
       specifications: {
         'Movement': 'Quartz Chronograph',
         'Case Material': 'Dark grey ion-plated stainless steel',
@@ -749,9 +793,9 @@ class DummyData {
       colors: ['Dark Grey', 'Gold-Black'],
       sizes: ['45mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- TITAN (3) ---
@@ -762,7 +806,8 @@ class DummyData {
       category: 'Classic',
       price: 320.00,
       discount: 0.10,
-      description: 'One of the slimmest ceramic watches in the world. Merges advanced design engineering with premium scratch-resistant ceramic build.',
+      description:
+          'One of the slimmest ceramic watches in the world. Merges advanced design engineering with premium scratch-resistant ceramic build.',
       specifications: {
         'Movement': 'Ultra-slim Quartz (Calibre 1150)',
         'Case Material': 'Ceramic',
@@ -779,9 +824,9 @@ class DummyData {
       colors: ['Midnight Black', 'Pearl White'],
       sizes: ['40mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'titan-2',
@@ -790,7 +835,8 @@ class DummyData {
       category: 'Classic',
       price: 240.00,
       discount: 0.0,
-      description: 'Perfect for formal dinners and luxury gala events, features multi-dial date-time layout with indices decorated in gold.',
+      description:
+          'Perfect for formal dinners and luxury gala events, features multi-dial date-time layout with indices decorated in gold.',
       specifications: {
         'Movement': 'Quartz Chronograph',
         'Case Material': 'Two-Tone Stainless Steel',
@@ -807,9 +853,9 @@ class DummyData {
       colors: ['Gold-Silver Two Tone'],
       sizes: ['42mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: false,
     ),
     Watch(
       id: 'titan-3',
@@ -818,7 +864,8 @@ class DummyData {
       category: 'Sport',
       price: 195.00,
       discount: 0.08,
-      description: 'Sporty timekeeper crafted with tachymeter dial, date display window, and luminous hand dials for dark environments.',
+      description:
+          'Sporty timekeeper crafted with tachymeter dial, date display window, and luminous hand dials for dark environments.',
       specifications: {
         'Movement': 'Quartz Calibre Chrono',
         'Case Material': 'Stainless steel with black bezel',
@@ -835,9 +882,9 @@ class DummyData {
       colors: ['Red-Black', 'Blue-Silver'],
       sizes: ['44mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- TAG HEUER (3) ---
@@ -848,7 +895,8 @@ class DummyData {
       category: 'Luxury',
       price: 6400.00,
       discount: 0.0,
-      description: 'Designed as a tribute to the challenging Carrera Panamericana road race. Sporty, elegant chronograph for active men.',
+      description:
+          'Designed as a tribute to the challenging Carrera Panamericana road race. Sporty, elegant chronograph for active men.',
       specifications: {
         'Movement': 'Automatic Heuer 02 Calibre',
         'Case Material': 'Stainless Steel',
@@ -865,9 +913,9 @@ class DummyData {
       colors: ['Black Dial', 'Blue Sunray Dial'],
       sizes: ['42mm', '44mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'tag-2',
@@ -876,7 +924,8 @@ class DummyData {
       category: 'Luxury',
       price: 7200.00,
       discount: 0.05,
-      description: 'The square-faced legendary watch worn by Steve McQueen. A retro racing classic with left-hand crown layout.',
+      description:
+          'The square-faced legendary watch worn by Steve McQueen. A retro racing classic with left-hand crown layout.',
       specifications: {
         'Movement': 'Automatic Calibre 11',
         'Case Material': 'Stainless Steel (Square)',
@@ -893,9 +942,9 @@ class DummyData {
       colors: ['Classic McQueen Blue'],
       sizes: ['39mm'],
       isFeatured: true,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'tag-3',
@@ -904,7 +953,8 @@ class DummyData {
       category: 'Sport',
       price: 3600.00,
       discount: 0.0,
-      description: 'A heavy duty luxury tool watch designed for surfing, diving, and deep water sports, featuring a 12-sided ceramic bezel.',
+      description:
+          'A heavy duty luxury tool watch designed for surfing, diving, and deep water sports, featuring a 12-sided ceramic bezel.',
       specifications: {
         'Movement': 'Automatic Calibre 5',
         'Case Material': 'Grade 5 Titanium / Ceramic Bezel',
@@ -921,9 +971,9 @@ class DummyData {
       colors: ['Olive Green Dial', 'Deep Sea Black'],
       sizes: ['43mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- APPLE WATCH (3) ---
@@ -934,13 +984,15 @@ class DummyData {
       category: 'Smartwatch',
       price: 799.00,
       discount: 0.0,
-      description: 'The ultimate sports and adventure watch. Featuring a rugged titanium case, up to 72 hours of battery life, and double tap gesture.',
+      description:
+          'The ultimate sports and adventure watch. Featuring a rugged titanium case, up to 72 hours of battery life, and double tap gesture.',
       specifications: {
         'Movement': 'Apple S9 SiP Dual-Core',
         'Case Material': 'Aerospace Grade Titanium',
         'Case Size': '49mm',
         'Glass': 'Flat sapphire crystal front',
-        'Water Resistance': '100m (330 feet), Swimproof & recreational dive to 40m',
+        'Water Resistance':
+            '100m (330 feet), Swimproof & recreational dive to 40m',
         'Power Reserve': 'Up to 36 hours (72 hours in low power)',
         'Strap': 'Orange Ocean Band / Trail Loop / Alpine Loop',
       },
@@ -951,9 +1003,9 @@ class DummyData {
       colors: ['Titanium Orange', 'Titanium Black', 'Titanium White'],
       sizes: ['49mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'apple-2',
@@ -962,7 +1014,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 399.00,
       discount: 0.10,
-      description: 'A smarter, brighter, and more powerful health companion, with blood oxygen tracking, ECG app, and carbon neutral case options.',
+      description:
+          'A smarter, brighter, and more powerful health companion, with blood oxygen tracking, ECG app, and carbon neutral case options.',
       specifications: {
         'Movement': 'Apple S9 SiP',
         'Case Material': 'Aluminum or Stainless Steel',
@@ -979,9 +1032,9 @@ class DummyData {
       colors: ['Midnight', 'Starlight', 'Silver', 'Graphite'],
       sizes: ['41mm', '45mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'apple-3',
@@ -990,7 +1043,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 249.00,
       discount: 0.05,
-      description: 'Easy ways to stay connected. Active health sensors. Safety features like crash detection. Incredible value watch.',
+      description:
+          'Easy ways to stay connected. Active health sensors. Safety features like crash detection. Incredible value watch.',
       specifications: {
         'Movement': 'Apple S8 SiP Dual-Core',
         'Case Material': '100% Recycled Aluminum',
@@ -1007,9 +1061,9 @@ class DummyData {
       colors: ['Starlight SE', 'Midnight SE'],
       sizes: ['40mm', '44mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- SAMSUNG (3) ---
@@ -1020,7 +1074,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 399.00,
       discount: 0.12,
-      description: 'The return of the physical rotating bezel. Galaxy Watch 6 Classic is a premium smartwatch that offers detailed sleep coach and body stats.',
+      description:
+          'The return of the physical rotating bezel. Galaxy Watch 6 Classic is a premium smartwatch that offers detailed sleep coach and body stats.',
       specifications: {
         'Movement': 'Exynos W930 (5nm)',
         'Case Material': 'Stainless Steel',
@@ -1037,9 +1092,9 @@ class DummyData {
       colors: ['Black', 'Silver'],
       sizes: ['43mm', '47mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'samsung-2',
@@ -1048,7 +1103,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 299.00,
       discount: 0.08,
-      description: 'Streamlined active lifestyle smartwatch. Thin bezel, lightweight sport casing, with heart rate monitors and automatic workout trackers.',
+      description:
+          'Streamlined active lifestyle smartwatch. Thin bezel, lightweight sport casing, with heart rate monitors and automatic workout trackers.',
       specifications: {
         'Movement': 'Exynos W930',
         'Case Material': 'Armor Aluminum',
@@ -1065,9 +1121,9 @@ class DummyData {
       colors: ['Graphite', 'Silver', 'Gold'],
       sizes: ['40mm', '44mm'],
       isFeatured: false,
-      isPopular: true,
-      isNewArrival: true,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: true,
+      // isRecommended: true,
     ),
     Watch(
       id: 'samsung-3',
@@ -1076,7 +1132,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 449.00,
       discount: 0.15,
-      description: 'Outdoor adventurer watch with GPS route tracking, titanium chassis, and largest battery capacity in Galaxy wearable history.',
+      description:
+          'Outdoor adventurer watch with GPS route tracking, titanium chassis, and largest battery capacity in Galaxy wearable history.',
       specifications: {
         'Movement': 'Exynos W920 (5nm)',
         'Case Material': 'Titanium case',
@@ -1093,9 +1150,9 @@ class DummyData {
       colors: ['Black Titanium', 'Gray Titanium'],
       sizes: ['45mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
 
     // --- HUAWEI (3) ---
@@ -1106,7 +1163,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 349.00,
       discount: 0.10,
-      description: 'A striking octagonal watch design combining luxury timekeeping aesthetics with 14-day ultra long battery life trackers.',
+      description:
+          'A striking octagonal watch design combining luxury timekeeping aesthetics with 14-day ultra long battery life trackers.',
       specifications: {
         'Movement': 'HarmonyOS proprietary sensor SiP',
         'Case Material': 'Stainless Steel (Octagonal)',
@@ -1123,9 +1181,9 @@ class DummyData {
       colors: ['Brown Leather GT', 'Black Steel', 'Green Active'],
       sizes: ['46mm'],
       isFeatured: true,
-      isPopular: true,
-      isNewArrival: false,
-      isRecommended: true,
+      // isPopular: true,
+      // isNewArrival: false,
+      // isRecommended: true,
     ),
     Watch(
       id: 'huawei-2',
@@ -1134,7 +1192,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 749.00,
       discount: 0.0,
-      description: 'Zirconium-based liquid metal chassis. 100m deep dive safety ratings, and global expedition satellite systems built inside.',
+      description:
+          'Zirconium-based liquid metal chassis. 100m deep dive safety ratings, and global expedition satellite systems built inside.',
       specifications: {
         'Movement': 'Huawei wearable processor',
         'Case Material': 'Zirconium Liquid Metal / Ceramic Bezel',
@@ -1151,9 +1210,9 @@ class DummyData {
       colors: ['Voyage Blue', 'Expedition Black'],
       sizes: ['48.5mm'],
       isFeatured: true,
-      isPopular: false,
-      isNewArrival: true,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: true,
+      // isRecommended: false,
     ),
     Watch(
       id: 'huawei-3',
@@ -1162,7 +1221,8 @@ class DummyData {
       category: 'Smartwatch',
       price: 139.00,
       discount: 0.0,
-      description: 'Ultra-thin, rectangular sleek fitness companion with dynamic training animations, sleep coach and high precision heart sensors.',
+      description:
+          'Ultra-thin, rectangular sleek fitness companion with dynamic training animations, sleep coach and high precision heart sensors.',
       specifications: {
         'Movement': 'Huawei smart sensor processor',
         'Case Material': 'Aluminum Alloy',
@@ -1179,9 +1239,9 @@ class DummyData {
       colors: ['White', 'Black Fit', 'Pink'],
       sizes: ['43.2mm'],
       isFeatured: false,
-      isPopular: false,
-      isNewArrival: false,
-      isRecommended: false,
+      // isPopular: false,
+      // isNewArrival: false,
+      // isRecommended: false,
     ),
   ];
 }

@@ -33,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void _onSignup(bool fromGuest) async {
     if (_formKey.currentState!.validate()) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final success = await authProvider.signup(
+      final success = await authProvider.register(
         _nameController.text.trim(),
         _emailController.text.trim(),
         _phoneController.text.trim(),
@@ -53,6 +53,14 @@ class _SignupScreenState extends State<SignupScreen> {
             (route) => false,
           );
         }
+      } else if (!success && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Sign up failed. Please try again.'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+        authProvider.clearError();
       }
     }
   }
